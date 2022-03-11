@@ -8,10 +8,10 @@ public class Main {
         BinNode<Integer> tr2 = new BinNode<Integer>(tr1, 1,
                 new BinNode<Integer>(2));
         BinNode<Integer> tr3 = new BinNode<Integer>(
-                new BinNode<>(2), 2,
+                new BinNode<>(1), 1,
                 new BinNode<Integer>(2));
         BinNode<Integer> tr4 = new BinNode<Integer>(null, 2, new BinNode<Integer>(1));
-        BinNode<Integer> tr5 = new BinNode<Integer>(tr3, 2, tr4);
+        BinNode<Integer> tr5 = new BinNode<Integer>(tr3, 1, tr4);
         BinNode<Integer> root = new BinNode<Integer>(tr2, 1, tr5);
 
         System.out.println(onePath(root));
@@ -25,22 +25,26 @@ public class Main {
         //stop condition
         if(t==null)
             return false;
-        if (isLeaf(t))
-            return true;
-        //check condition
         if(t.getValue()!=val)
             return false;
-        if ((t.getLeft() != null && t.getLeft().getValue() != val) &&
-                (t.getRight() != null && t.getRight().getValue() != val))
-            return false;
-        if ((t.getLeft() != null && t.getLeft().getValue() != val) &&
-                (t.getRight() == null ))
-            return false;
-        if ((t.getRight() != null && t.getRight().getValue() != val) &&
-                (t.getLeft() == null ))
-            return false;
-        return uniquePath(t.getLeft(), val) ||
-                uniquePath(t.getRight(), val);
+
+        int sons = childCode(t);
+        switch (sons){
+            case 0:
+                return true;
+            case 1:
+                if (t.getLeft().getValue()!=val)
+                    return false;
+            case 2:
+                if(t.getRight().getValue()!= val)
+                    return false;
+            default:
+                return uniquePath(t.getLeft(), val) ||
+                        uniquePath(t.getRight(), val);
+        }
+
+        //check condition
+
 
     }
 
